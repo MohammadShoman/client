@@ -1,8 +1,8 @@
 <template>
-  <label class="container"
+  <label class="container" 
     >{{ nameData }}
     <input @change="filterData" type="radio" name="radio" />
-    <span class="checkmark"></span>
+    <span  class="checkmark"></span>
   </label>
 </template>
 
@@ -16,9 +16,9 @@ export default {
   },
   props: {
     nameData: String,
-    type:String,
+    type: String,
   },
 };
 </script>
 
-<style></style>
+</style>

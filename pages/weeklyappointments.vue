@@ -1,12 +1,18 @@
 <template>
   <div>
+    <div dir="ltr" class="q">
+      {{ this.$t("title") }}
+    </div>
+
     <Header />
+
+    <button @click="changeLanguage('en')">EN</button>
+    <button @click="changeLanguage('ar')">AR</button>
     <div class="calendar-wrapper">
       <div id="calendar-container">
         <div id="calendar1" class="first-container" styles>
           <div class="calendar-header">
             <div class="left"></div>
-            <!-- <FiltterType @fillter-value="filterValue" /> -->
             <FiltterType />
             <div class="right">
               <RightSide />
@@ -16,18 +22,9 @@
       </div>
       <div class="calendar-view">
         <div class="middle">
-          <!-- <Menu /> -->
           <div />
           <CalenderNavBar />
-
-          <!-- <TableOfWeeklyAppintments
-          :number="7"
-          :startDate="startDate"
-          :list="list"
-          :date="onClickDate"
-        /> -->
         </div>
-        <!-- <TableHeaderDate /> -->
         <TableWeeklyAppoinmetns />
       </div>
     </div>
@@ -47,6 +44,11 @@ export default {
   data() {
     return {};
   },
+  head() {
+    return {
+      htmlAttrs: { lang: this.$store.getters.getLang },
+    };
+  },
   created() {
     this.$store.commit("changeStartDate", {
       startDate: this.getStratDate(new Date(), 6),
@@ -54,6 +56,13 @@ export default {
   },
 
   methods: {
+    changeLanguage(lang) {
+      this.$store.dispatch("setLang", {
+        lang: lang,
+      });
+
+      this.$i18n.locale = lang;
+    },
     getStratDate(date, day) {
       var curr = new Date(date); // get current date
       // if day === 0 = sunday
@@ -77,6 +86,17 @@ export default {
 </script>
 
 <style>
+html:lang(ar) * {
+  text-align: right;
+}
+html:lang(en) * {
+  text-align: left;
+}
+
+[dir="rtl"].q {
+  background-color: green;
+}
+
 .list-b {
   border-top-left-radius: 10px;
   background: #eceef8;

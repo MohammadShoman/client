@@ -23,13 +23,8 @@ export default {
   name: "IconsArrowLeft",
 
   methods: {
-    decreaseValue: function () {
-      this.$store.dispatch("addDays", {
-        date: this.$store.getters.getStartDate,
-        num: -7,
-        status: "change_startDate",
-      });
-      this.$store.dispatch("getAppoinments");
+    decreaseValue() {
+      this.$emit("decrease-value");
     },
   },
 };

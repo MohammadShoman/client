@@ -24,12 +24,7 @@ export default {
 
   methods: {
     increaseValue() {
-      this.$store.dispatch("addDays", {
-        date: this.$store.getters.getStartDate,
-        num: 7,
-        status: "change_startDate",
-      });
-      this.$store.dispatch("getAppoinments");
+      this.$emit("increase-value")
     },
   },
 };

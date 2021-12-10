@@ -34,10 +34,8 @@ export default {
         })
         .then((success) => {
           this.$router.push("/");
-          console.log(success);
         })
         .catch((err) => {
-          console.log(err);
         });
     },
   },
