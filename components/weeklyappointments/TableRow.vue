@@ -1,27 +1,28 @@
 <template>
   <div>
-    <tr :key="index1" v-for="(items, index1) in list">
-      <th>&nbsp; {{ items.name }}</th>
-      <td :key="index2" v-for="(count, index2) in 7" class="day">
-        <!-- event -->
-        <CardEvent
-          v-if="items.weekDays[index2].appointments.length == 1"
-          :userName="
-            items.weekDays[index2].appointments[0].appointment_patient_id
-          "
-          :appointmentTimeFrom="
-            items.weekDays[index2].appointments[0].appointment_start_time
-          "
-          :appointmentTimeTo="
-            items.weekDays[index2].appointments[0].appointment_end_time
-          "
-        />
 
-        <div v-else-if="items.weekDays[index2].appointments.length > 1">
-          {{ items.weekDays[index2].appointments.length }}
-        </div>
-      </td>
-    </tr>
+      <tr :key="index1" v-for="(items, index1) in list">
+        <th @click="weeklyUserAppointment(items.id)">&nbsp; {{ items.name }}</th>
+        <td :key="index2" v-for="(count, index2) in 7" class="day">
+          <!-- event -->
+          <CardEvent
+            v-if="items.weekDays[index2].appointments.length == 1"
+            :userName="
+              items.weekDays[index2].appointments[0].appointment_patient_id
+            "
+            :appointmentTimeFrom="
+              items.weekDays[index2].appointments[0].appointment_start_time
+            "
+            :appointmentTimeTo="
+              items.weekDays[index2].appointments[0].appointment_end_time
+            "
+          />
+
+          <div v-else-if="items.weekDays[index2].appointments.length > 1">
+            {{ items.weekDays[index2].appointments.length }}
+          </div>
+        </td>
+      </tr>
   </div>
 </template>
 
@@ -29,7 +30,13 @@
 import TableHeaderDate from "./TableHeaderDate.vue";
 import CardEvent from "./CardEvent.vue";
 export default {
-  methods: {},
+  methods: {
+    weeklyUserAppointment(id){
+      console.log(id);
+      this.$store.dispatch("getUserId",{userId:id})
+      this.$router.push("weekly")
+    }
+  },
   computed: {
     list: function () {
       return this.$store.getters.getAppoinment;
@@ -45,8 +52,4 @@ export default {
 };
 </script>
 
-<style>
-body.rtl {
-  direction: rtl;
-}
-</style>
+<style></style>

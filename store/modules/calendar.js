@@ -7,9 +7,11 @@ const Calendar = {
     startDate2: "",
     weeklyHeaderDays: "",
     list: [],
+    list2:[],
     type: "doctors",
-    dailyDate: "",
-    lang: "en",
+    userId:0,
+    userNmae:""
+    
   },
 
   mutations: {
@@ -25,22 +27,18 @@ const Calendar = {
     changeList(state, payload) {
       return (state.list = payload.list);
     },
+    changeList2(state, payload) {
+      return (state.list2 = payload.list2);
+    },
     filterUsers(state, payload) {
       return (state.type = payload.type);
     },
-    changeDailyDate(state, payload) {
-      return (state.dailyDate = payload.dailyDate);
+    setUserId(state,payload){
+      return (state.userId=payload.userId)
     },
-    changeLang(state, payload) {
-      return (state.lang = payload.lang);
-    },
+    
   },
   actions: {
-    setLang(context, payload) {
-      context.commit("changeLang", {
-        lang: payload.lang,
-      });
-    },
     addDays(context, payload) {
       const newD = new Date(payload.date);
       newD.setDate(newD.getDate() + payload.num);
@@ -48,6 +46,10 @@ const Calendar = {
         context.commit("changeStartDate", { startDate: newD.toString() });
       else if (payload.status === "change_startDate2")
         context.commit("changeStartDate2", { startDate2: newD.toString() });
+      else if (payload.status === "change_weeklyHeaderDays")
+        context.commit("changeWeeklyHeaderDays", {
+          weeklyHeaderDays: newD.toString(),
+        });
     },
 
     getAppoinments(context) {
@@ -57,16 +59,26 @@ const Calendar = {
         )
         .then((res) => {
           context.commit("changeList", { list: res.data.Users });
+          console.log("hiiiiiii", res.data.Users);
         });
-      {
-      }
+    },
+    getWeeklyTimeAppoinments(context) {
+      console.log('dr id ', `${context.state.userId}`);
+      axios
+        .get(
+          `http://localhost:5000/weeklyAppointments/${context.state.type}/${context.state.userId}/${context.state.startDate}`
+        )
+        .then((res) => {
+          context.commit("changeList2", { list2: res.data.Users });
+          console.log("hiiiiiii", res.data.Users);
+        });
     },
     getFilterData(context, payload) {
       context.commit("filterUsers", { type: payload.type });
     },
-    getDailyDate(context, payload) {
-      context.commit("changeDailyDate", { dailyDate: payload.dailyDate });
-    },
+    getUserId(context,payload){
+      context.commit("setUserId",{userId:payload.userId})
+    }
   },
   getters: {
     getStartDate(state) {
@@ -81,14 +93,11 @@ const Calendar = {
     getAppoinment(state) {
       return state.list;
     },
+    getWeeklyTimeAppoinments(state) {
+      return state.list2;
+    },
     getFilterData(state) {
       return state.type;
-    },
-    getDailyDate(state) {
-      return state.dailyDate;
-    },
-    getLang(state) {
-      return state.lang;
     },
   },
 };

@@ -1,14 +1,8 @@
 <template>
-  <tr x class="weekdays">
+  <tr class="weekdays">
     <th>&nbsp;</th>
-    <th
-      @click="pushTo(getDate(index))"
-      ref="header"
-      :key="day"
-      v-for="(day, index) in 7"
-      scope="col"
-    >
-      {{ getDate(index) }}
+    <th ref="header" :key="day" v-for="(day, index) in 7" scope="col">
+      {{ a(index) }}
     </th>
   </tr>
 </template>
@@ -18,23 +12,17 @@ export default {
   name: "DateHeader",
 
   methods: {
-    getDate: function (index) {
+    a: function (index) {
       let date = new Date(this.$store.getters.getStartDate);
       console.log("date ", date);
       date.setDate(date.getDate() + index);
       return (
         date.toLocaleString("en-us", { weekday: "short" }) +
-        " " +
+        "\n" +
         date.toLocaleString("en-us", { month: "short" }) +
         " " +
         date.getDate()
       );
-    },
-
-    pushTo(date) {
-      console.log("hi ", date);
-      this.$store.dispatch("getDailyDate", { dailyDate: date });
-      this.$router.push("dailyappointments");
     },
   },
 };

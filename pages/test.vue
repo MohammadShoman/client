@@ -1,5 +1,7 @@
 <template>
   <div>
+    <!-- <CardEvent/>
+    <Card/> -->
     <Header />
     <div class="calendar-wrapper">
       <div id="calendar-container">
@@ -35,7 +37,7 @@
 </template>
 
 <script>
-import Header from "../components/Header";
+import Header from "../components/weeklyappointments/header";
 import RightSide from "../components/weeklyappointments/RightSide.vue";
 import TableHeaderDate from "../components/weeklyappointments/TableHeaderDate.vue";
 import CalenderNavBar from "../components/weeklyappointments/CalenderNavBar.vue";
@@ -43,7 +45,8 @@ import Menu from "../components/weeklyappointments/Menu.vue";
 import TableWeeklyAppoinmetns from "../components/weeklyappointments/TableWeeklyAppoinmetns.vue";
 import FilterRadioButton from "../components/weeklyappointments/FilterRadioButton.vue";
 import FiltterType from "../components/weeklyappointments/FiltterType.vue";
-
+import CardEvent from "../components/calender/CardEvent.vue"
+import Card from "../components/calender/Card.vue"
 export default {
   data() {
     return {};
@@ -73,6 +76,8 @@ export default {
     TableWeeklyAppoinmetns,
     FilterRadioButton,
     FiltterType,
+    CardEvent,
+    Card,
   },
 };
 </script>

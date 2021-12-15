@@ -1,80 +1,33 @@
 <template>
   <div>
-    <Header />
-    <div class="calendar-wrapper">
-      <div id="calendar-container">
-        <div id="calendar1" class="first-container" styles>
-          <div class="calendar-header">
-            <div class="left"></div>
-            <!-- <FiltterType @fillter-value="filterValue" /> -->
-            <FiltterType />
-            <div class="right">
-              <RightSide />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="calendar-view">
-        <div class="middle">
-          <!-- <Menu /> -->
-          <div />
-          <CalenderNavBar />
-
-          <!-- <TableOfWeeklyAppintments
-          :number="7"
-          :startDate="startDate"
-          :list="list"
-          :date="onClickDate"
-        /> -->
-        </div>
-        <!-- <TableHeaderDate /> -->
-        <TableWeeklyAppoinmetns />
-      </div>
-    </div>
+      <Header/>
+      <FiltterType/> 
+      <CalenderNavBar />
+      <DropDownFilter :list2="list2" :listValue="listValue"/>
+      <TableWeeklyTimeAppointment/>
   </div>
 </template>
 
 <script>
-import Header from "../components/Header";
-import RightSide from "../components/weeklyappointments/RightSide.vue";
-import TableHeaderDate from "../components/weeklyappointments/TableHeaderDate.vue";
-import CalenderNavBar from "../components/weeklyappointments/CalenderNavBar.vue";
-import Menu from "../components/weeklyappointments/Menu.vue";
-import TableWeeklyAppoinmetns from "../components/weeklyappointments/TableWeeklyAppoinmetns.vue";
-import FilterRadioButton from "../components/weeklyappointments/FilterRadioButton.vue";
-import FiltterType from "../components/weeklyappointments/FiltterType.vue";
-
+import Header from '../components/Header'
+import FiltterType from '../components/weeklyappointments/FiltterType.vue'
+import CalenderNavBar from '../components/weeklyappointments/CalenderNavBar.vue'
+import TableWeeklyTimeAppointment from '../components/weeklyUserAppointment/TableWeeklyTimeAppointment.vue'
+import DropDownFilter from '../components/weeklyUserAppointment/DropDownFilter.vue'
 export default {
-  data() {
-    return {};
-  },
-  created() {
-    this.$store.commit("changeStartDate", {
-      startDate: this.getStratDate(new Date(), 6),
-    });
-  },
-
-  methods: {
-    getStratDate(date, day) {
-      var curr = new Date(date); // get current date
-      // if day === 0 = sunday
-      while (curr.getDay() != day) {
-        curr.setDate(curr.getDate() - 1);
-      }
-      return curr;
-    },
-  },
-  components: {
+components:{
     Header,
-    RightSide,
-    TableHeaderDate,
-    CalenderNavBar,
-    Menu,
-    TableWeeklyAppoinmetns,
-    FilterRadioButton,
     FiltterType,
-  },
-};
+    CalenderNavBar ,
+    TableWeeklyTimeAppointment,
+    DropDownFilter,
+},
+data(){
+return{
+  list2:this.$store.getters.getWeeklyTimeAppoinments,
+}
+}
+}
 </script>
 
 <style>

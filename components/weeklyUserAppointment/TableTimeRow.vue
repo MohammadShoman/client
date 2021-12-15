@@ -1,110 +1,52 @@
 <template>
   <div>
-    <Header />
-    <div class="calendar-wrapper">
-      <div id="calendar-container">
-        <div id="calendar1" class="first-container" styles>
-          <div class="calendar-header">
-            <div class="left"></div>
-            <!-- <FiltterType @fillter-value="filterValue" /> -->
-            <FiltterType />
-            <div class="right">
-              <RightSide />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="calendar-view">
-        <div class="middle">
-          <!-- <Menu /> -->
-          <div />
-          <CalenderNavBar />
+    
+    <tr :key="index" v-for="(items, index) in list2">
+        <th :key="i" v-for="(item,i) in items.weekDays[0].appointmentTimes">
+            {{item.Time}}
+        </th>
+      
+      <td :key="index" v-for="(count, index) in number" class="day">
+        <!-- event -->
+        <CardEvent
+          v-if="items.weekDays[index].appointmentTimes[index].appointments.length == 1"
+          :userName="items.weekDays[index].appointmentTimes[0].appointments"
+          :appointmentTimeFrom="
+            items.weekDays[index].appointmentTimes[0].appointments
+          "
+          :appointmentTimeTo="
+            items.weekDays[index].appointmentTimes[0].appointments
+          "
+        />
 
-          <!-- <TableOfWeeklyAppintments
-          :number="7"
-          :startDate="startDate"
-          :list="list"
-          :date="onClickDate"
-        /> -->
+        <div v-else-if="items.weekDays[index].appointments.length > 1">
+          {{ items.weekDays[index].appointmentTimes[0].appointments.length }}
         </div>
-        <!-- <TableHeaderDate /> -->
-        <TableWeeklyAppoinmetns />
-      </div>
-    </div>
+      </td>
+    </tr>
   </div>
 </template>
 
 <script>
-import Header from "../components/Header";
-import RightSide from "../components/weeklyappointments/RightSide.vue";
-import TableHeaderDate from "../components/weeklyappointments/TableHeaderDate.vue";
-import CalenderNavBar from "../components/weeklyappointments/CalenderNavBar.vue";
-import Menu from "../components/weeklyappointments/Menu.vue";
-import TableWeeklyAppoinmetns from "../components/weeklyappointments/TableWeeklyAppoinmetns.vue";
-import FilterRadioButton from "../components/weeklyappointments/FilterRadioButton.vue";
-import FiltterType from "../components/weeklyappointments/FiltterType.vue";
-
+import CardEvent from "../weeklyappointments/CardEvent.vue";
 export default {
-  data() {
-    return {};
-  },
-  created() {
-    this.$store.commit("changeStartDate", {
-      startDate: this.getStratDate(new Date(), 6),
-    });
-  },
-
-  methods: {
-    getStratDate(date, day) {
-      var curr = new Date(date); // get current date
-      // if day === 0 = sunday
-      while (curr.getDay() != day) {
-        curr.setDate(curr.getDate() - 1);
-      }
-      return curr;
+  name: "TableTimeRow",
+  components: { CardEvent },
+  computed: {
+    list2: function () {
+      return this.$store.getters.getWeeklyTimeAppoinments;
     },
   },
-  components: {
-    Header,
-    RightSide,
-    TableHeaderDate,
-    CalenderNavBar,
-    Menu,
-    TableWeeklyAppoinmetns,
-    FilterRadioButton,
-    FiltterType,
+
+  created() {
+    this.$store.dispatch("getWeeklyTimeAppoinments");
   },
+
+  methods: {},
 };
 </script>
 
 <style>
-.list-b {
-  border-top-left-radius: 10px;
-  background: #eceef8;
-  font-size: 12px;
-}
-.list-b:hover {
-  background-color: #ccd5ff;
-}
-.drop-svg {
-  float: right;
-}
-.drop-svg:hover {
-  transform: rotate(180deg);
-}
-.middle {
-  text-align: center;
-  font-family: sans-serif;
-  letter-spacing: 1.8px;
-  background-color: #fff;
-  border-bottom-style: inset;
-  border-radius: 10px;
-  margin-bottom: 0.05%;
-  padding-right: 20px;
-  border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 0px;
-  display: flex;
-}
 .body {
   margin: 0%;
 }
@@ -185,7 +127,13 @@ export default {
   font-size: 20px;
   font-family: sans-serif;
 }
-
+.son {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 .button-group {
   position: relative;
   display: inline-flex;

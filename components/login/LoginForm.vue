@@ -9,8 +9,9 @@
       </div>
       <input type="email" v-model="email" placeholder="Email" />
       <input type="password" v-model="password" placeholder="Password" />
-      <a href="#">Forgot your password?</a>
+      <a href="/forgotPassword">Forgot your password?</a>
       <button @click.prevent="login" class="second-button">Sign In</button>
+      <p style="color:red">{{getMessage}}</p>
     </form>
   </div>
 </template>
@@ -23,6 +24,7 @@ export default {
       fullName: "",
       email: "",
       password: "",
+     
     };
   },
   methods: {
@@ -33,12 +35,19 @@ export default {
           password: this.password,
         })
         .then((success) => {
-          this.$router.push("/");
+          console.log(success);
         })
         .catch((err) => {
+          console.log(err);
         });
     },
   },
+  computed:{
+    getMessage(){
+      return  this.$store.getters.getMessage
+
+    }
+  }
 };
 </script>
 

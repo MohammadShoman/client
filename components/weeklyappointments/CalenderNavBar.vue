@@ -1,11 +1,11 @@
 <template>
-  <div  class="son">
-    <IconArrowLeft @decrease-value="decreaseDate" />
+  <div class="son">
+    <IconArrowLeft />
 
     <h2 class="week-from-to">
       <WeekFromTo />
     </h2>
-    <IconsArrowRight @increase-value="increaseDate" />
+    <IconsArrowRight />
   </div>
 </template>
 
@@ -14,24 +14,6 @@ import IconArrowLeft from "./IconArrowLeft.vue";
 import WeekFromTo from "./WeekFromTo.vue";
 import IconsArrowRight from "./IconsArrowRight.vue";
 export default {
-  methods: {
-    decreaseDate() {
-      this.$store.dispatch("addDays", {
-        date: this.$store.getters.getStartDate,
-        num: -7,
-        status: "change_startDate",
-      });
-      this.$store.dispatch("getAppoinments");
-    },
-    increaseDate() {
-      this.$store.dispatch("addDays", {
-        date: this.$store.getters.getStartDate,
-        num: 7,
-        status: "change_startDate",
-      });
-      this.$store.dispatch("getAppoinments");
-    },
-  },
   components: { IconArrowLeft, WeekFromTo, IconsArrowRight },
 };
 </script>
